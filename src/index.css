@@ -1,0 +1,1738 @@
+/* ==========================================
+   SUYAMBU TRAVELS — REFINED DESIGN SYSTEM
+   Visual V2 Pass — Inspired by Visual Reference
+   ========================================== */
+
+/* ------------------------------------------
+   1. CSS Custom Properties / Design Tokens
+   ------------------------------------------ */
+:root {
+  /* Color Palette */
+  --bg-page: #F7F6F2;           /* Warm Off-White Page Background */
+  --bg-surface: #FFFFFF;
+  --bg-surface-elevated: #FAFAFA;
+  
+  --color-green-dark: #2D3A26;   /* Deep Forest / Dark Olive Primary Accent */
+  --color-green-mid: #384A30;
+  --color-green-light: #EBEFE7;
+  --color-green-muted: #576850;
+  
+  --color-text-dark: #121411;    /* Near-Black / Charcoal Headings */
+  --color-text-muted: #5C6359;  /* Muted Slate Body Text */
+  --color-text-light: #8E968A;
+  --color-white: #FFFFFF;
+  
+  --color-border: #E2E5DE;
+  --color-border-subtle: #ECEFE8;
+  
+  /* Typography */
+  --font-main: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  
+  /* Radii System derived from Reference */
+  --radius-sm: 12px;
+  --radius-md: 20px;
+  --radius-lg: 28px;
+  --radius-xl: 36px;
+  --radius-pill: 999px;
+  
+  /* Shadows & Effects */
+  --shadow-subtle: 0 8px 24px rgba(18, 20, 17, 0.04);
+  --shadow-hover: 0 16px 40px rgba(18, 20, 17, 0.08);
+  
+  /* Transitions */
+  --ease-smooth: cubic-bezier(0.25, 1, 0.5, 1);
+  --transition-fast: 0.2s var(--ease-smooth);
+  --transition-normal: 0.35s var(--ease-smooth);
+  --transition-slow: 0.65s var(--ease-smooth);
+  
+  /* Layout & Whitespace */
+  --container-max: 1340px;
+  --header-height: 84px;
+}
+
+/* ------------------------------------------
+   2. Reset & Core Fundamentals
+   ------------------------------------------ */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  background-color: var(--bg-page);
+  color: var(--color-text-dark);
+  font-family: var(--font-main);
+  line-height: 1.55;
+  overflow-x: hidden;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+
+.container {
+  width: 100%;
+  max-width: var(--container-max);
+  margin: 0 auto;
+  padding: 0 32px;
+}
+
+/* ------------------------------------------
+   3. Editorial Typography & Whitespace System
+   ------------------------------------------ */
+.eyebrow {
+  display: inline-block;
+  font-size: 0.725rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  color: var(--color-green-muted);
+  margin-bottom: 16px;
+}
+
+.eyebrow-white {
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.heading-xl {
+  font-size: clamp(2.8rem, 5.2vw, 4.75rem);
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: -0.035em;
+  color: var(--color-text-dark);
+}
+
+.heading-lg {
+  font-size: clamp(2.25rem, 4vw, 3.5rem);
+  font-weight: 750;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+  color: var(--color-text-dark);
+}
+
+.heading-md {
+  font-size: clamp(1.4rem, 2.2vw, 1.85rem);
+  font-weight: 700;
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+}
+
+.body-lead {
+  font-size: clamp(1.05rem, 1.3vw, 1.25rem);
+  color: var(--color-text-muted);
+  line-height: 1.6;
+  font-weight: 400;
+}
+
+.body-sm {
+  font-size: 0.875rem;
+  color: var(--color-text-muted);
+  line-height: 1.55;
+}
+
+/* Generous Editorial Pacing */
+.section-padding {
+  padding: 160px 0;
+}
+
+.section-header {
+  margin-bottom: 72px;
+}
+
+.section-header-flex {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 64px;
+}
+
+/* Rounded Pill Buttons matching reference */
+.btn-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 14px 30px;
+  border-radius: var(--radius-pill);
+  font-size: 0.9rem;
+  font-weight: 600;
+  transition: all var(--transition-normal);
+  white-space: nowrap;
+}
+
+.btn-pill-dark {
+  background-color: var(--color-green-dark);
+  color: var(--color-white);
+}
+
+.btn-pill-dark:hover {
+  background-color: var(--color-green-mid);
+  transform: translateY(-2px);
+}
+
+.btn-pill-white {
+  background-color: var(--color-white);
+  color: var(--color-text-dark);
+}
+
+.btn-pill-white:hover {
+  background-color: #F0F2EE;
+  transform: translateY(-2px);
+}
+
+.btn-pill-outline {
+  background-color: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  color: var(--color-white);
+  backdrop-filter: blur(8px);
+}
+
+.btn-pill-outline:hover {
+  border-color: var(--color-white);
+  background-color: rgba(255, 255, 255, 0.12);
+}
+
+.btn-pill-subtle {
+  background-color: var(--color-green-light);
+  color: var(--color-green-dark);
+}
+
+.btn-pill-subtle:hover {
+  background-color: #DFE5DA;
+  transform: translateY(-2px);
+}
+
+.btn-pill .arrow-icon {
+  transition: transform var(--transition-fast);
+}
+
+.btn-pill:hover .arrow-icon {
+  transform: translateX(4px);
+}
+
+/* Image Reveal Wrapper */
+.image-reveal-wrap {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  border-radius: var(--radius-lg);
+}
+
+.image-reveal-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: scale(1.08);
+  transition: transform var(--transition-slow);
+}
+
+.image-reveal-wrap:hover img {
+  transform: scale(1.02);
+}
+
+/* ------------------------------------------
+   4. Floating Navigation Header
+   ------------------------------------------ */
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  padding: 24px 0;
+  transition: all var(--transition-normal);
+}
+
+.header.scrolled {
+  padding: 16px 0;
+  background-color: rgba(247, 246, 242, 0.88);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(45, 58, 38, 0.06);
+}
+
+.header.scrolled .brand-logo {
+  color: var(--color-text-dark);
+}
+
+.header.scrolled .nav-link {
+  color: var(--color-text-dark);
+}
+
+.header.scrolled .nav-link:hover {
+  color: var(--color-green-dark);
+}
+
+.header-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.brand-logo {
+  font-size: 1.1rem;
+  font-weight: 800;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--color-white);
+  transition: color var(--transition-fast);
+}
+
+.nav-menu {
+  display: flex;
+  align-items: center;
+  gap: 38px;
+  list-style: none;
+}
+
+.nav-link {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.9);
+  transition: color var(--transition-fast);
+  position: relative;
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 0%;
+  height: 2px;
+  background-color: var(--color-green-dark);
+  transition: width var(--transition-fast);
+  border-radius: 2px;
+}
+
+.nav-link:hover::after {
+  width: 100%;
+}
+
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+/* Mobile Hamburger Toggle */
+.mobile-toggle {
+  display: none;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 28px;
+  height: 18px;
+  cursor: pointer;
+  z-index: 1001;
+}
+
+.mobile-toggle span {
+  width: 100%;
+  height: 2px;
+  background-color: var(--color-white);
+  border-radius: 2px;
+  transition: all var(--transition-fast);
+}
+
+.header.scrolled .mobile-toggle span {
+  background-color: var(--color-text-dark);
+}
+
+.mobile-toggle.active span:nth-child(1) {
+  transform: translateY(8px) rotate(45deg);
+  background-color: var(--color-text-dark) !important;
+}
+
+.mobile-toggle.active span:nth-child(2) {
+  opacity: 0;
+}
+
+.mobile-toggle.active span:nth-child(3) {
+  transform: translateY(-8px) rotate(-45deg);
+  background-color: var(--color-text-dark) !important;
+}
+
+/* ------------------------------------------
+   5. Hero Section
+   ------------------------------------------ */
+.hero {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  padding: calc(var(--header-height) + 80px) 0 90px;
+  color: var(--color-white);
+  overflow: hidden;
+}
+
+.hero-bg-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  overflow: hidden;
+}
+
+.hero-bg-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  transform: scale(1.08);
+  will-change: transform;
+}
+
+.hero-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    180deg,
+    rgba(18, 24, 15, 0.58) 0%,
+    rgba(18, 24, 15, 0.40) 45%,
+    rgba(18, 24, 15, 0.76) 100%
+  );
+  z-index: 2;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 3;
+  width: 100%;
+  max-width: 820px;
+}
+
+.hero .eyebrow {
+  color: rgba(255, 255, 255, 0.85);
+  margin-bottom: 22px;
+}
+
+.hero .heading-xl {
+  color: var(--color-white);
+  margin-bottom: 24px;
+}
+
+.hero-subtitle {
+  font-size: clamp(1.1rem, 1.5vw, 1.35rem);
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.88);
+  margin-bottom: 44px;
+  max-width: 600px;
+}
+
+.hero-cta-group {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 72px;
+  flex-wrap: wrap;
+}
+
+.hero-bottom-bar {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding-top: 36px;
+  border-top: 1px solid rgba(255, 255, 255, 0.16);
+  flex-wrap: wrap;
+}
+
+.hero-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.825rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.92);
+  padding: 8px 18px;
+  background-color: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-radius: var(--radius-pill);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+.hero-chip-icon {
+  width: 15px;
+  height: 15px;
+  fill: currentColor;
+}
+
+/* ------------------------------------------
+   6. Section 2 — Fleet Intro ("OUR FLEET")
+   ------------------------------------------ */
+.fleet-intro {
+  background-color: var(--bg-page);
+}
+
+/* Unboxed Editorial Fleet Showcase */
+.fleet-intro-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 40px;
+}
+
+.fleet-card-unboxed {
+  display: flex;
+  flex-direction: column;
+}
+
+.fleet-card-unboxed .image-reveal-wrap {
+  aspect-ratio: 3 / 4;
+  margin-bottom: 20px;
+  background-color: #E2E5DE;
+}
+
+.fleet-card-unboxed .fleet-card-title {
+  font-size: 1.35rem;
+  font-weight: 750;
+  color: var(--color-text-dark);
+  margin-bottom: 6px;
+}
+
+.fleet-card-unboxed .fleet-card-meta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.9rem;
+  color: var(--color-text-muted);
+  font-weight: 500;
+}
+
+.fleet-card-meta-dot {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background-color: var(--color-text-light);
+}
+
+/* ------------------------------------------
+   7. Section 3 — Complete Fleet Grid
+   ------------------------------------------ */
+.fleet-grid-section {
+  background-color: var(--bg-page);
+}
+
+.fleet-grid-asymmetric {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 32px;
+}
+
+/* Editorial Asymmetric Spans */
+.fleet-grid-item-col-6 {
+  grid-column: span 6;
+}
+
+.fleet-grid-item-col-12 {
+  grid-column: span 12;
+}
+
+.fleet-grid-editorial-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.fleet-grid-editorial-item .image-reveal-wrap {
+  aspect-ratio: 16 / 9.5;
+  margin-bottom: 18px;
+  background-color: #E2E5DE;
+}
+
+.fleet-grid-editorial-item.col-12 .image-reveal-wrap {
+  aspect-ratio: 21 / 9;
+}
+
+.fleet-grid-caption {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.fleet-grid-name {
+  font-size: 1.25rem;
+  font-weight: 750;
+  color: var(--color-text-dark);
+}
+
+.fleet-grid-specs {
+  font-size: 0.875rem;
+  color: var(--color-text-muted);
+  font-weight: 500;
+}
+
+/* ------------------------------------------
+   8. Section 4 — Pricing Section (Editorial Flow)
+   ------------------------------------------ */
+.pricing-section {
+  background-color: var(--bg-page);
+}
+
+.pricing-editorial-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 40px;
+  margin-bottom: 48px;
+}
+
+.pricing-editorial-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.pricing-editorial-item .image-reveal-wrap {
+  aspect-ratio: 16 / 10;
+  margin-bottom: 20px;
+  background-color: #E2E5DE;
+}
+
+.pricing-item-header {
+  margin-bottom: 12px;
+}
+
+.pricing-item-name {
+  font-size: 1.3rem;
+  font-weight: 750;
+  color: var(--color-text-dark);
+}
+
+.pricing-item-sub {
+  font-size: 0.875rem;
+  color: var(--color-text-muted);
+}
+
+.pricing-item-rate {
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: var(--color-green-dark);
+  margin-bottom: 18px;
+  letter-spacing: -0.02em;
+}
+
+.pricing-disclaimer {
+  text-align: center;
+  font-size: 0.875rem;
+  color: var(--color-text-muted);
+  max-width: 680px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+/* ------------------------------------------
+   9. Section 5 — Booking Timeline (Unboxed)
+   ------------------------------------------ */
+.booking-section {
+  background-color: var(--bg-page);
+}
+
+.booking-layout {
+  display: grid;
+  grid-template-columns: 0.9fr 1.1fr;
+  gap: 72px;
+  align-items: start;
+}
+
+.booking-image-sticky {
+  position: sticky;
+  top: 110px;
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  background-color: #E2E5DE;
+}
+
+.booking-image-sticky img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform var(--transition-slow);
+}
+
+.booking-timeline {
+  display: flex;
+  flex-direction: column;
+}
+
+.booking-timeline-item {
+  padding: 32px 0;
+  border-bottom: 1px solid rgba(45, 58, 38, 0.12);
+  transition: all var(--transition-normal);
+}
+
+.booking-timeline-item:first-child {
+  padding-top: 0;
+}
+
+.booking-timeline-item:last-child {
+  border-bottom: none;
+}
+
+.booking-timeline-num {
+  font-size: 0.875rem;
+  font-weight: 800;
+  color: var(--color-green-muted);
+  margin-bottom: 8px;
+  letter-spacing: 0.05em;
+  transition: color var(--transition-fast);
+}
+
+.booking-timeline-item.active .booking-timeline-num {
+  color: var(--color-green-dark);
+}
+
+.booking-timeline-title {
+  font-size: 1.35rem;
+  font-weight: 750;
+  color: var(--color-text-dark);
+  margin-bottom: 8px;
+}
+
+.booking-timeline-desc {
+  font-size: 0.95rem;
+  color: var(--color-text-muted);
+  line-height: 1.65;
+  max-width: 520px;
+}
+
+.booking-timeline-note {
+  display: block;
+  margin-top: 6px;
+  font-size: 0.825rem;
+  font-weight: 600;
+  color: #C0392B;
+}
+
+/* ------------------------------------------
+   10. Section 6 — Closing CTA
+   ------------------------------------------ */
+.cta-section {
+  position: relative;
+  padding: 180px 0 160px;
+  color: var(--color-white);
+  text-align: center;
+  overflow: hidden;
+}
+
+.cta-bg-wrap {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+.cta-bg-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.cta-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    180deg,
+    rgba(247, 246, 242, 0.95) 0%,
+    rgba(24, 33, 20, 0.74) 35%,
+    rgba(45, 58, 38, 1) 100%
+  );
+  z-index: 2;
+}
+
+.cta-content {
+  position: relative;
+  z-index: 3;
+  max-width: 780px;
+  margin: 0 auto;
+}
+
+.cta-section .eyebrow {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.cta-section .heading-lg {
+  color: var(--color-white);
+  margin-bottom: 38px;
+}
+
+.cta-buttons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  flex-wrap: wrap;
+}
+
+/* ------------------------------------------
+   11. Section 7 — Dark Green Footer
+   ------------------------------------------ */
+.footer {
+  background-color: var(--color-green-dark);
+  color: rgba(255, 255, 255, 0.85);
+  padding: 90px 0 40px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: 1.4fr 0.8fr 1.2fr 0.8fr;
+  gap: 48px;
+  margin-bottom: 64px;
+}
+
+.footer-brand .brand-logo {
+  display: inline-block;
+  margin-bottom: 16px;
+}
+
+.footer-desc {
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.7);
+  margin-bottom: 24px;
+  max-width: 320px;
+}
+
+.footer-experience-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-pill);
+  font-size: 0.825rem;
+  font-weight: 600;
+  color: var(--color-white);
+}
+
+.footer-title {
+  font-size: 0.825rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--color-white);
+  margin-bottom: 22px;
+}
+
+.footer-links {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.footer-link {
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.75);
+  transition: color var(--transition-fast);
+}
+
+.footer-link:hover {
+  color: var(--color-white);
+}
+
+.footer-contact-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.8);
+  margin-bottom: 14px;
+  line-height: 1.5;
+}
+
+.footer-icon {
+  width: 18px;
+  height: 18px;
+  fill: currentColor;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.footer-payment-tags {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 12px;
+}
+
+.payment-tag {
+  padding: 4px 10px;
+  background-color: rgba(255, 255, 255, 0.08);
+  border-radius: 6px;
+  font-size: 0.775rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.footer-maps-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 9px 16px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.9);
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 10px;
+  text-decoration: none;
+  letter-spacing: 0.01em;
+  transition: background 0.22s ease, border-color 0.22s ease, transform 0.22s ease, color 0.22s ease;
+  cursor: pointer;
+}
+
+.footer-maps-btn:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.4);
+  color: #fff;
+  transform: translateY(-2px);
+}
+
+.footer-bottom {
+  padding-top: 36px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.825rem;
+  color: rgba(255, 255, 255, 0.55);
+}
+
+/* ------------------------------------------
+   12. Floating Mobile Action Bar (< 768px)
+   ------------------------------------------ */
+.mobile-action-bar {
+  display: none;
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 999;
+  width: calc(100% - 40px);
+  max-width: 400px;
+  background-color: rgba(45, 58, 38, 0.96);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  padding: 10px 14px;
+  border-radius: var(--radius-pill);
+  box-shadow: 0 10px 32px rgba(0, 0, 0, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.mobile-action-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.mobile-action-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 16px;
+  border-radius: var(--radius-pill);
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: var(--color-white);
+  transition: transform var(--transition-fast);
+}
+
+.mobile-action-btn.call-btn {
+  background-color: rgba(255, 255, 255, 0.18);
+}
+
+.mobile-action-btn.wa-btn {
+  background-color: #25D366;
+  color: #052E16;
+}
+
+/* ------------------------------------------
+   13. GSAP Reveal & Motion System
+   ------------------------------------------ */
+.reveal-up {
+  opacity: 0;
+  transform: translateY(40px);
+  will-change: opacity, transform;
+}
+
+.reveal-scale {
+  opacity: 0;
+  transform: scale(0.94);
+  will-change: opacity, transform;
+}
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  
+  .reveal-up, .reveal-scale {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  
+  .hero-bg-image {
+    transform: none !important;
+  }
+}
+
+/* ------------------------------------------
+   14. Responsive Layout Breakpoints
+   ------------------------------------------ */
+@media (max-width: 1024px) {
+  .fleet-intro-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 32px;
+  }
+  
+  .fleet-grid-asymmetric {
+    grid-template-columns: 1fr 1fr;
+  }
+  
+  .fleet-grid-item-col-6,
+  .fleet-grid-item-col-12 {
+    grid-column: span 1;
+  }
+
+  .fleet-grid-editorial-item.col-12 .image-reveal-wrap {
+    aspect-ratio: 16 / 9.5;
+  }
+
+  .pricing-editorial-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 32px;
+  }
+  
+  .booking-layout {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+  
+  .booking-image-sticky {
+    position: relative;
+    top: 0;
+    aspect-ratio: 16 / 10;
+  }
+  
+  .footer-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 40px;
+  }
+
+  .section-padding {
+    padding: 120px 0;
+  }
+}
+
+@media (max-width: 768px) {
+  .nav-menu {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 80%;
+    max-width: 320px;
+    height: 100vh;
+    background-color: var(--bg-surface);
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 100px 40px;
+    box-shadow: -10px 0 40px rgba(0, 0, 0, 0.15);
+    transition: right var(--transition-normal);
+  }
+  
+  .nav-menu.active {
+    right: 0;
+  }
+  
+  .nav-link {
+    color: var(--color-text-dark) !important;
+    font-size: 1.15rem;
+  }
+  
+  .mobile-toggle {
+    display: flex;
+  }
+
+  .fleet-intro-grid,
+  .fleet-grid-asymmetric,
+  .pricing-editorial-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .footer-grid {
+    grid-template-columns: 1fr;
+    gap: 36px;
+  }
+  
+  .footer-bottom {
+    flex-direction: column;
+    gap: 12px;
+    text-align: center;
+  }
+  
+  .mobile-action-bar {
+    display: block;
+  }
+  
+  .section-padding {
+    padding: 90px 0;
+  }
+}
+
+/* ==========================================================================
+   V3 ARCHITECTURE - TRUST / BRAND MOMENT
+   ========================================================================== */
+.trust-grid {
+  display: flex;
+  align-items: center;
+  gap: 80px;
+}
+.trust-left {
+  display: flex;
+  align-items: center;
+  flex: 0 0 auto;
+}
+.trust-large-num {
+  font-size: 14rem;
+  line-height: 0.8;
+  font-weight: 300;
+  letter-spacing: -0.05em;
+  color: var(--color-green-dark);
+}
+.trust-divider {
+  width: 1px;
+  height: 200px;
+  background-color: var(--color-border);
+  transform-origin: top;
+}
+.trust-right {
+  flex: 1 1 auto;
+}
+.trust-stats-flex {
+  display: flex;
+  gap: 48px;
+}
+.trust-stat {
+  display: flex;
+  flex-direction: column;
+}
+.trust-stat-val {
+  font-size: 2rem;
+  font-weight: 600;
+  line-height: 1;
+  color: var(--color-green-dark);
+}
+.trust-stat-lbl {
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-top: 8px;
+}
+
+@media (max-width: 991px) {
+  .trust-grid {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 40px;
+  }
+  .trust-large-num { font-size: 8rem; }
+  .trust-divider { width: 100%; height: 1px; transform-origin: left; }
+  .trust-stats-flex { gap: 24px; flex-wrap: wrap; }
+}
+
+/* ==========================================================================
+   V3 ARCHITECTURE - SIGNATURE FLEET (STICKY)
+   ========================================================================== */
+.fleet-signature-layout {
+  display: flex;
+  gap: 60px;
+  align-items: flex-start;
+  position: relative;
+}
+.fleet-signature-nav {
+  position: sticky;
+  top: 120px;
+  width: 360px;
+  flex: 0 0 360px;
+  align-self: flex-start;
+}
+.fleet-signature-images {
+  flex: 1 1 0%;
+  min-width: 0;
+  width: 100%;
+}
+.fleet-nav-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.fleet-nav-item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  transition: color 0.3s ease, transform 0.3s ease;
+}
+.fleet-nav-item.active {
+  color: var(--color-text-dark);
+  transform: translateX(12px);
+}
+.fleet-nav-num {
+  font-size: 0.8rem;
+  font-weight: 500;
+  opacity: 0.5;
+}
+
+.fleet-mobile-list {
+  display: flex;
+  flex-direction: column;
+  gap: 64px;
+}
+.fleet-mobile-item.align-right {
+  text-align: right;
+}
+.fleet-mobile-item .image-reveal-wrap {
+  width: 100%;
+  height: 250px;
+  border-radius: var(--radius-md);
+  margin-top: 16px;
+}
+.fleet-mobile-item .image-reveal-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ==========================================================================
+   V3 ARCHITECTURE - CHOOSER PILLS
+   ========================================================================== */
+.btn-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 12px 24px;
+  border-radius: 100px;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 1px solid transparent;
+}
+.btn-pill-dark {
+  background-color: var(--color-green-dark);
+  color: var(--color-white);
+}
+.btn-pill-white {
+  background-color: var(--color-white);
+  color: var(--color-green-dark);
+}
+.btn-pill-outline,
+.btn-pill-outline-dark {
+  background-color: transparent;
+  color: var(--color-text-dark);
+  border-color: var(--color-border);
+}
+.btn-pill-outline:hover,
+.btn-pill-outline-dark:hover {
+  background-color: var(--color-green-light);
+  border-color: var(--color-green-dark);
+}
+.btn-pill-outline-light {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: var(--color-white);
+  border-color: rgba(255, 255, 255, 0.35);
+  backdrop-filter: blur(8px);
+}
+.btn-pill-outline-light:hover {
+  background-color: rgba(255, 255, 255, 0.25);
+  border-color: var(--color-white);
+}
+
+.cinematic-shader-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* ==========================================================================
+   V3 ARCHITECTURE - PRICING ROW
+   ========================================================================== */
+.pricing-list-row {
+  transition: background-color 0.3s ease;
+}
+
+/* ==========================================================================
+   MOBILE-ONLY EXPERIENCE ENHANCEMENTS (<= 768px)
+   ========================================================================== */
+
+/* Mobile Hero */
+.mobile-hero {
+  position: relative;
+  min-height: 85svh;
+  display: flex;
+  align-items: flex-end;
+  padding: 100px 0 32px;
+  overflow: hidden;
+}
+.mobile-hero-bg {
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 100%;
+  z-index: 1;
+}
+.mobile-hero-bg img {
+  width: 100%; height: 100%; object-fit: cover;
+}
+.mobile-hero-overlay {
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 100%;
+  background: linear-gradient(180deg, rgba(18, 20, 17, 0.4) 0%, rgba(18, 20, 17, 0.88) 100%);
+}
+.mobile-hero-content {
+  position: relative;
+  z-index: 2;
+  color: var(--color-white);
+}
+.mobile-hero-eyebrow {
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  margin-bottom: 8px;
+  display: block;
+}
+.mobile-hero-title {
+  color: var(--color-white);
+  font-size: 2.5rem;
+  line-height: 1.1;
+  margin-bottom: 12px;
+}
+.mobile-hero-subtitle {
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 0.95rem;
+  margin-bottom: 24px;
+}
+.mobile-hero-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+.mobile-hero-trust-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-size: 0.78rem;
+  color: rgba(255, 255, 255, 0.75);
+  padding-top: 16px;
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+}
+.mobile-hero-trust-bar .dot { opacity: 0.5; }
+
+/* Mobile Trust Strip */
+.mobile-trust-strip {
+  background-color: var(--color-green-dark);
+  color: var(--color-white);
+  padding: 24px 0;
+}
+.mobile-trust-grid {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  text-align: center;
+}
+.mobile-trust-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.mobile-trust-num {
+  font-size: 1.4rem;
+  font-weight: 800;
+  line-height: 1;
+  color: var(--color-white);
+}
+.mobile-trust-lbl {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: rgba(255, 255, 255, 0.75);
+  margin-top: 4px;
+}
+.mobile-trust-divider {
+  width: 1px;
+  height: 32px;
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Mobile Horizontal Swipeable Fleet */
+.mobile-fleet-section {
+  padding: 48px 0 24px;
+}
+.mobile-fleet-snap-track {
+  display: flex;
+  gap: 16px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  padding: 0 20px 16px;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+.mobile-fleet-snap-track::-webkit-scrollbar {
+  display: none;
+}
+.mobile-fleet-card {
+  flex: 0 0 84vw;
+  max-width: 340px;
+  scroll-snap-align: center;
+  background-color: var(--bg-surface);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+  overflow: hidden;
+  box-shadow: var(--shadow-subtle);
+}
+.mobile-fleet-card-img-wrap {
+  width: 100%;
+  height: 200px;
+  overflow: hidden;
+}
+.mobile-fleet-card-img-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.mobile-fleet-card-body {
+  padding: 16px 20px;
+}
+.mobile-fleet-enquire-btn {
+  background-color: var(--color-green-dark);
+  color: var(--color-white);
+  padding: 8px 16px;
+  border-radius: var(--radius-pill);
+  font-size: 0.82rem;
+  font-weight: 700;
+  border: none;
+  cursor: pointer;
+}
+.mobile-fleet-dots {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 12px;
+}
+.mobile-fleet-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background-color: var(--color-border);
+  transition: all 0.3s ease;
+}
+.mobile-fleet-dot.active {
+  width: 20px;
+  border-radius: 4px;
+  background-color: var(--color-green-dark);
+}
+
+/* Mobile Vehicle Chooser */
+.mobile-chooser-section {
+  padding: 40px 0;
+}
+.mobile-chooser-pills {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+.mobile-chooser-box {
+  background-color: var(--color-green-light);
+  padding: 20px;
+  border-radius: var(--radius-md);
+}
+.mobile-chooser-option {
+  width: 100%;
+  text-align: left;
+  padding: 14px 16px;
+  border-radius: var(--radius-sm);
+  border: 2px solid var(--color-border);
+  background-color: transparent;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: all 0.2s ease;
+}
+.mobile-chooser-option.selected {
+  border-color: var(--color-green-dark);
+  background-color: var(--bg-surface);
+}
+.mobile-radio-indicator {
+  width: 18px; height: 18px;
+  border-radius: 50%;
+  border: 2px solid var(--color-text-muted);
+  display: flex; alignItems: center; justifyContent: center;
+  flex-shrink: 0;
+}
+.mobile-radio-indicator.active {
+  border-color: var(--color-green-dark);
+}
+.mobile-radio-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background-color: var(--color-green-dark);
+}
+
+/* Mobile Pricing Accordion */
+.mobile-pricing-section {
+  padding: 24px 0 40px;
+}
+.mobile-pricing-toggle {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 24px;
+  background-color: var(--bg-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  text-align: left;
+}
+.mobile-pricing-toggle-icon {
+  font-size: 1.5rem;
+  font-weight: 300;
+  line-height: 1;
+  color: var(--color-green-dark);
+}
+.mobile-pricing-content {
+  background-color: var(--bg-surface);
+  border: 1px solid var(--color-border);
+  border-top: none;
+  border-radius: 0 0 var(--radius-md) var(--radius-md);
+  padding: 20px 24px;
+  margin-top: -8px;
+}
+.mobile-pricing-table {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.mobile-pricing-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--color-border-subtle);
+}
+.mobile-pricing-row:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+/* Mobile Booking Summary */
+.mobile-booking-section {
+  padding: 40px 0;
+  background-color: var(--bg-surface);
+  border-top: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--color-border);
+}
+.mobile-booking-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.mobile-booking-step-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+}
+.mobile-booking-num {
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: var(--color-green-dark);
+  background-color: var(--color-green-light);
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  display: flex; alignItems: center; justifyContent: center;
+  flex-shrink: 0;
+}
+
+/* Mobile Travel CTA */
+.mobile-cta-section {
+  position: relative;
+  padding: 60px 0;
+  overflow: hidden;
+  text-align: center;
+}
+.mobile-cta-bg {
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 100%;
+}
+.mobile-cta-bg img {
+  width: 100%; height: 100%; object-fit: cover;
+}
+.mobile-cta-overlay {
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 100%;
+  background: rgba(18, 20, 17, 0.75);
+}
+.mobile-cta-content {
+  position: relative;
+  z-index: 2;
+}
+
+/* Mobile Footer */
+.mobile-footer {
+  background-color: var(--color-green-dark);
+  padding: 40px 0 100px;
+}
+.mobile-footer-links {
+  display: flex;
+  gap: 16px;
+  font-size: 0.88rem;
+  color: var(--color-white);
+  margin-top: 12px;
+}
+
+/* Mobile Bottom Sheet Drawer for BookingPanel */
+@media (max-width: 768px) {
+  .booking-panel {
+    top: auto !important;
+    bottom: 0 !important;
+    height: 88dvh !important;
+    max-width: 100% !important;
+    border-radius: 24px 24px 0 0 !important;
+  }
+}
+
+/* ==========================================================================
+   DESKTOP SPATIAL SCROLL STYLING (>= 1024px)
+   ========================================================================== */
+.fleet-spatial-desktop {
+  position: relative;
+  overflow: hidden;
+  background-color: var(--bg-page);
+}
+
+.fleet-spatial-pin-wrapper {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.fleet-spatial-header-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 24px;
+  flex-shrink: 0;
+}
+
+.fleet-spatial-counter {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--color-green-dark);
+  background-color: var(--color-green-light);
+  padding: 6px 16px;
+  border-radius: var(--radius-pill);
+}
+
+.fleet-spatial-track-container {
+  width: 100%;
+  overflow: hidden;
+}
+
+.fleet-spatial-track {
+  display: flex;
+  gap: 40px;
+  width: max-content;
+  padding: 0 40px;
+  will-change: transform;
+}
+
+.fleet-spatial-panel {
+  width: 80vw;
+  max-width: 1100px;
+  flex-shrink: 0;
+}
+
+.fleet-spatial-card {
+  display: flex;
+  align-items: center;
+  gap: 48px;
+  background-color: var(--bg-surface);
+  border-radius: var(--radius-xl);
+  padding: 48px;
+  box-shadow: var(--shadow-subtle);
+  border: 1px solid var(--color-border);
+}
+
+.fleet-spatial-info {
+  flex: 0 0 380px;
+}
+
+.fleet-spatial-image-container {
+  flex: 1 1 0%;
+  height: 480px;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  position: relative;
+}
+
+.fleet-spatial-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  will-change: transform;
+}
+
+
+
+
