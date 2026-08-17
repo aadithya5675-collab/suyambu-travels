@@ -95,7 +95,7 @@ function AppContent() {
             <MobileFleetSwipe vehicles={vehicles} onBook={handleOpenBooking} />
             <MobileVehicleChooser vehicles={vehicles} onBook={handleOpenBooking} />
             <MobilePricingAccordion vehicles={vehicles} onBook={handleOpenBooking} />
-            <MobileBookingProcess onBook={handleOpenBooking} />
+            <MobileBookingProcess />
             <MobileTravelCTA />
           </>
         ) : (

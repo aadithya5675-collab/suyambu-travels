@@ -1,8 +1,8 @@
 import React from 'react';
 
-export function CallIcon({ size = 18, className = '', color = 'currentColor', ...props }) {
+export function CallIcon({ size = 18, className = '', color = 'currentColor', style, ...props }) {
   return (
-    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" className={className} {...props}>
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" className={className} style={{ flexShrink: 0, ...style }} {...props}>
       <path d="M21.97 18.33c-.39 1.72-1.89 3.03-3.69 3.14-2.83.17-6.99-1.28-10.4-4.69C4.47 13.37 3.02 9.21 3.19 6.38c.11-1.8 1.42-3.3 3.14-3.69l2.45-.55c.98-.22 1.99.31 2.37 1.25l1.09 2.72c.32.8.12 1.72-.51 2.31l-1.32 1.24c1.19 2.39 3.14 4.34 5.53 5.53l1.24-1.32c.59-.63 1.51-.83 2.31-.51l2.72 1.09c.94.38 1.47 1.39 1.25 2.37l-.49 2.1z" />
     </svg>
   );
@@ -17,9 +17,9 @@ export function LocationIcon({ size = 18, className = '', color = 'currentColor'
   );
 }
 
-export function WhatsAppIcon({ size = 18, className = '', color = 'currentColor', ...props }) {
+export function WhatsAppIcon({ size = 18, className = '', color = 'currentColor', style, ...props }) {
   return (
-    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" className={className} {...props}>
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" className={className} style={{ flexShrink: 0, ...style }} {...props}>
       <path d="M17.5 6.5A8.5 8.5 0 0 0 3.3 14.7L2 21.5l7-1.3A8.5 8.5 0 1 0 17.5 6.5z" />
       <path d="M9.5 9.5c.2-.5.5-.5.8-.5h.6c.2 0 .4.1.5.4l.7 1.7c.1.3.1.5-.1.7l-.4.5c-.1.2-.3.2-.2.5.5.9 1.4 1.8 2.3 2.3.3.1.4 0 .5-.2l.5-.4c.2-.2.4-.2.7-.1l1.7.7c.3.1.4.3.4.5v.6c0 .3-.1.6-.5.8-.5.3-1.4.4-2.5 0-1.8-.7-3.3-2.2-4-4-.4-1.1-.3-2 0-2.5z" />
     </svg>

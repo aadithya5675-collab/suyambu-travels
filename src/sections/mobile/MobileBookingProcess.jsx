@@ -1,8 +1,7 @@
 import React from 'react';
-import { Button } from '../../components/Button';
 import { businessData } from '../../data/business';
 
-export function MobileBookingProcess({ onBook }) {
+export function MobileBookingProcess() {
   const steps = [
     { num: '01', title: 'Choose vehicle', desc: 'Select model for your group size.' },
     { num: '02', title: 'Contact us', desc: `Call or WhatsApp ${businessData.phone}.` },
@@ -27,14 +26,6 @@ export function MobileBookingProcess({ onBook }) {
             </div>
           ))}
         </div>
-
-        <Button 
-          variant="dark" 
-          onClick={() => onBook(null)}
-          style={{ width: '100%', justifyContent: 'center', marginTop: '20px' }}
-        >
-          Book on WhatsApp
-        </Button>
       </div>
     </section>
   );

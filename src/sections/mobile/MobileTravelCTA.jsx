@@ -1,6 +1,8 @@
 import React from 'react';
 import { Button } from '../../components/Button';
 import { createWhatsAppURL } from '../../utils/whatsapp';
+import { businessData } from '../../data/business';
+import { CallIcon, WhatsAppIcon } from '../../components/icons/Icons';
 
 export function MobileTravelCTA() {
   return (
@@ -15,15 +17,28 @@ export function MobileTravelCTA() {
         <h2 className="heading-md" style={{ color: 'var(--color-white)', marginBottom: '16px' }}>
           Wherever you're going,<br />we're ready to drive.
         </h2>
-        <Button 
-          variant="white" 
-          href={createWhatsAppURL()} 
-          target="_blank" 
-          rel="noopener noreferrer"
-          style={{ width: '100%', justifyContent: 'center' }}
-        >
-          WhatsApp Us
-        </Button>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', width: '100%' }}>
+          <Button 
+            variant="white" 
+            href={`tel:${businessData.phoneTel}`} 
+            hasArrow={false}
+            style={{ width: '100%', justifyContent: 'center' }}
+          >
+            <CallIcon size={18} style={{ marginRight: '8px', display: 'inline-block', verticalAlign: 'middle' }} />
+            Call Us Now
+          </Button>
+          <Button 
+            variant="outline-light" 
+            href={createWhatsAppURL()} 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            hasArrow={false}
+            style={{ width: '100%', justifyContent: 'center' }}
+          >
+            <WhatsAppIcon size={18} style={{ marginRight: '8px', display: 'inline-block', verticalAlign: 'middle' }} />
+            WhatsApp Booking
+          </Button>
+        </div>
       </div>
     </section>
   );
