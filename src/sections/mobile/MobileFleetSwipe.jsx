@@ -1,4 +1,5 @@
 import React, { useState, useRef } from 'react';
+import { SeatIcon, AirConditionerIcon } from '../../components/icons/Icons';
 
 export function MobileFleetSwipe({ vehicles, onBook }) {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -69,8 +70,12 @@ export function MobileFleetSwipe({ vehicles, onBook }) {
             <div className="mobile-fleet-card-body">
               <div>
                 <h3 className="heading-sm" style={{ margin: 0 }}>{v.name}</h3>
-                <span className="body-sm" style={{ color: 'var(--color-text-muted)' }}>
-                  {v.seats} Seater • {v.ac ? 'AC' : 'Non-AC'}
+                <span className="body-sm" style={{ color: 'var(--color-text-muted)', display: 'inline-flex', alignItems: 'center', gap: '4px', marginTop: '4px' }}>
+                  <SeatIcon size={13} />
+                  <span>{v.seats} Seater</span>
+                  <span>•</span>
+                  <AirConditionerIcon size={13} />
+                  <span>{v.ac ? 'AC' : 'Non-AC'}</span>
                 </span>
               </div>
               <div style={{ marginTop: '12px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -92,7 +97,7 @@ export function MobileFleetSwipe({ vehicles, onBook }) {
       </div>
 
       {/* Interactive Accessible Dot Indicators */}
-      <div className="mobile-fleet-dots" role="tablist">
+      <div className="mobile-fleet-dots" role="tablist" aria-label="Fleet vehicle selector">
         {vehicles.map((v, index) => (
           <button 
             key={v.id}

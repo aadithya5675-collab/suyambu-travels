@@ -1,9 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, lazy, Suspense } from 'react';
 import Lenis from 'lenis';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 import { useMediaQuery } from './utils/useMediaQuery';
+import { AdaptivePerformanceProvider } from './adaptive/AdaptivePerformanceProvider';
+import { useAdaptivePerformance } from './adaptive/useAdaptivePerformance';
+import { AdaptiveDebugOverlay } from './components/adaptive/AdaptiveDebugOverlay';
 
 // Desktop Sections
 import { Navbar } from './components/Navbar';
@@ -26,26 +29,24 @@ import { MobileTravelCTA } from './sections/mobile/MobileTravelCTA';
 import { MobileFooter } from './sections/mobile/MobileFooter';
 
 // Shared Components
-import { BookingPanel } from './components/BookingPanel';
-import { MobileBookingBar } from './components/MobileBookingBar';
+const BookingPanel = lazy(() => import('./components/BookingPanel').then(m => ({ default: m.BookingPanel })));
 
 import { vehicles } from './data/vehicles';
 import './index.css';
 
 gsap.registerPlugin(ScrollTrigger);
 
-function App() {
+function AppContent() {
   const isMobile = useMediaQuery('(max-width: 768px)');
+  const { features, isTabVisible } = useAdaptivePerformance();
   const [bookingPanelOpen, setBookingPanelOpen] = useState(false);
   const [selectedVehicleId, setSelectedVehicleId] = useState(null);
 
   useEffect(() => {
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    
     let lenis;
     let updateLenis;
     
-    if (!prefersReducedMotion && !isMobile) {
+    if (features.smoothScroll && !isMobile) {
       lenis = new Lenis({
         lerp: 0.08,
         wheelMultiplier: 0.9,
@@ -67,7 +68,7 @@ function App() {
         lenis.destroy();
       }
     };
-  }, [isMobile]);
+  }, [features.smoothScroll, isMobile]);
 
   const handleOpenBooking = (vehicleId = null) => {
     if (vehicleId && typeof vehicleId === 'object' && vehicleId.id) {
@@ -100,27 +101,49 @@ function App() {
         ) : (
           /* Desktop & Laptop View (>= 769px): Full Cinematic Spatial Storytelling Architecture */
           <>
-            <Hero onBook={handleOpenBooking} />
-            <TrustIntro />
-            <SignatureFleet vehicles={vehicles} onBook={handleOpenBooking} />
-            <VehicleChooser vehicles={vehicles} onBook={handleOpenBooking} />
-            <Pricing vehicles={vehicles} onBook={handleOpenBooking} />
-            <BookingProcess />
-            <TravelCTA />
+            <Hero 
+              onBook={handleOpenBooking} 
+              enable3D={features.hero3D} 
+              enableGSAP={Boolean(features.cinematicGSAP)} 
+              webglMaxDpr={features.webglMaxDpr}
+              isTabVisible={isTabVisible}
+            />
+            <TrustIntro enableAnimation={features.animeRoute} />
+            <SignatureFleet 
+              vehicles={vehicles} 
+              onBook={handleOpenBooking} 
+              enableSpatial={features.cinematicGSAP === true} 
+              preloadImages={features.preloadFleetImages}
+            />
+            <VehicleChooser vehicles={vehicles} onBook={handleOpenBooking} enableGSAP={Boolean(features.cinematicGSAP)} />
+            <Pricing vehicles={vehicles} onBook={handleOpenBooking} enableGSAP={Boolean(features.cinematicGSAP)} />
+            <BookingProcess enableGSAP={Boolean(features.cinematicGSAP)} />
+            <TravelCTA enableShader={features.shader} enableGSAP={Boolean(features.cinematicGSAP)} />
           </>
         )}
       </main>
 
-      {isMobile ? <MobileFooter /> : <Footer />}
+      {isMobile ? <MobileFooter /> : <Footer enableGSAP={Boolean(features.cinematicGSAP)} />}
       
-      <MobileBookingBar />
-      <BookingPanel 
-        isOpen={bookingPanelOpen} 
-        onClose={handleCloseBooking} 
-        vehicles={vehicles} 
-        initialVehicleId={selectedVehicleId} 
-      />
+      <Suspense fallback={null}>
+        <BookingPanel 
+          isOpen={bookingPanelOpen} 
+          onClose={handleCloseBooking} 
+          vehicles={vehicles} 
+          initialVehicleId={selectedVehicleId} 
+        />
+      </Suspense>
+
+      <AdaptiveDebugOverlay />
     </>
+  );
+}
+
+function App() {
+  return (
+    <AdaptivePerformanceProvider>
+      <AppContent />
+    </AdaptivePerformanceProvider>
   );
 }
 

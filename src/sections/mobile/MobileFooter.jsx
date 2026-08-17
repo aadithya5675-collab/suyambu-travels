@@ -1,5 +1,6 @@
 import React from 'react';
 import { businessData } from '../../data/business';
+import { ArrowUpRightIcon } from '../../components/icons/Icons';
 
 export function MobileFooter() {
   return (
@@ -13,8 +14,9 @@ export function MobileFooter() {
         </p>
 
         <div className="mobile-footer-links">
-          <a href={businessData.mapsUrl} target="_blank" rel="noopener noreferrer">
-            Maps ↗
+          <a href={businessData.mapsUrl} target="_blank" rel="noopener noreferrer" style={{ display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
+            <span>Maps</span>
+            <ArrowUpRightIcon size={12} />
           </a>
           <a href={`tel:${businessData.phoneTel}`}>Call</a>
           <a href="#home">Back to top ↑</a>

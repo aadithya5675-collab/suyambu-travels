@@ -7,7 +7,7 @@ import { motionDistance } from '../motion/motionTokens';
 
 gsap.registerPlugin(ScrollTrigger);
 
-export function BookingProcess() {
+export function BookingProcess({ enableGSAP = true }) {
   const containerRef = useRef(null);
   const leftImageRef = useRef(null);
   const rightContentRef = useRef(null);
@@ -15,7 +15,7 @@ export function BookingProcess() {
 
   useEffect(() => {
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (prefersReducedMotion) return;
+    if (prefersReducedMotion || !enableGSAP) return;
 
     let ctx = gsap.context(() => {
       let mm = gsap.matchMedia();
@@ -56,7 +56,7 @@ export function BookingProcess() {
     }, containerRef);
 
     return () => ctx.revert();
-  }, []);
+  }, [enableGSAP]);
 
   const steps = [
     { title: "Choose your vehicle", desc: "Select a vehicle suitable for your group size and outstation travel needs.", note: null },
@@ -99,8 +99,8 @@ export function BookingProcess() {
                   key={index} 
                   className={`booking-timeline-item ${activeStep === index ? 'active' : ''}`} 
                   style={{ 
-                    opacity: activeStep === index ? 1 : 0.35, 
-                    transform: activeStep === index ? 'translateY(0)' : 'translateY(8px)', 
+                    opacity: enableGSAP ? (activeStep === index ? 1 : 0.35) : 1, 
+                    transform: enableGSAP ? (activeStep === index ? 'translateY(0)' : 'translateY(8px)') : 'translateY(0)', 
                     transition: 'opacity 0.4s ease, transform 0.4s ease' 
                   }}
                 >

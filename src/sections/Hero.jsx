@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState, lazy, Suspense } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Button } from '../components/Button';
@@ -7,45 +7,68 @@ import { CinematicShaderImage } from '../motion/shaders/CinematicShaderImage';
 
 gsap.registerPlugin(ScrollTrigger);
 
-export function Hero({ onBook }) {
+// Lazy-load the subtle 3D Route Ribbon visual
+const HeroRouteRibbon = lazy(() => import('../components/3d/HeroRouteRibbon'));
+
+export function Hero({ onBook, enable3D = false, enableGSAP = true, webglMaxDpr = 1.5, isTabVisible = true }) {
   const heroRef = useRef(null);
   const bgRef = useRef(null);
   const overlayRef = useRef(null);
   const contentRef = useRef(null);
+  const [mounted3D, setMounted3D] = useState(false);
 
   useEffect(() => {
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    
+    if (enable3D) {
+      // Delay mounting 3D visual slightly after critical first paint to protect LCP
+      const timer = setTimeout(() => setMounted3D(true), 250);
+      return () => clearTimeout(timer);
+    } else {
+      setMounted3D(false);
+    }
+  }, [enable3D]);
+
+  const [inView, setInView] = useState(true);
+
+  useEffect(() => {
+    if (!heroRef.current) return;
+    const observer = new IntersectionObserver(([entry]) => {
+      setInView(entry.isIntersecting);
+    }, { rootMargin: '100px' });
+    observer.observe(heroRef.current);
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (!enableGSAP) return;
+
     let ctx = gsap.context(() => {
-      if (!prefersReducedMotion) {
-        // Scroll Parallax (Subtle depth on scroll down)
-        gsap.to(bgRef.current, {
-          y: '10%',
-          ease: 'none',
-          scrollTrigger: {
-            trigger: heroRef.current,
-            start: 'top top',
-            end: 'bottom top',
-            scrub: true
-          }
-        });
-        
-        gsap.to(contentRef.current, {
-          y: '25%',
-          opacity: 0,
-          ease: 'none',
-          scrollTrigger: {
-            trigger: heroRef.current,
-            start: 'top top',
-            end: '60% top',
-            scrub: true
-          }
-        });
-      }
+      // Scroll Parallax (Subtle depth on scroll down)
+      gsap.to(bgRef.current, {
+        y: '10%',
+        ease: 'none',
+        scrollTrigger: {
+          trigger: heroRef.current,
+          start: 'top top',
+          end: 'bottom top',
+          scrub: true
+        }
+      });
+      
+      gsap.to(contentRef.current, {
+        y: '25%',
+        opacity: 0,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: heroRef.current,
+          start: 'top top',
+          end: '60% top',
+          scrub: true
+        }
+      });
     }, heroRef);
 
     return () => ctx.revert();
-  }, []);
+  }, [enableGSAP]);
 
   return (
     <section ref={heroRef} className="hero" id="home">
@@ -60,6 +83,13 @@ export function Hero({ onBook }) {
           />
         </div>
         <div ref={overlayRef} className="hero-overlay"></div>
+        
+        {/* Subtle 3D Route Ribbon (Lazy-loaded, High Tier Desktop only) */}
+        {mounted3D && (
+          <Suspense fallback={null}>
+            <HeroRouteRibbon isVisible={inView && isTabVisible} dpr={webglMaxDpr} />
+          </Suspense>
+        )}
       </div>
 
       <div className="container">

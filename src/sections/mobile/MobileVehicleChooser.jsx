@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Button } from '../../components/Button';
+import { SeatIcon } from '../../components/icons/Icons';
 
 export function MobileVehicleChooser({ vehicles, onBook }) {
   const [activeGroup, setActiveGroup] = useState('1-4');
@@ -33,17 +34,22 @@ export function MobileVehicleChooser({ vehicles, onBook }) {
         <span className="eyebrow" style={{ display: 'block', textAlign: 'center' }}>FIND YOUR RIDE</span>
         <h2 className="heading-md" style={{ textAlign: 'center', marginBottom: '20px' }}>How many passengers?</h2>
 
-        <div className="mobile-chooser-pills">
-          {groups.map(group => (
-            <button 
-              key={group.id}
-              onClick={() => handleGroupChange(group.id)}
-              className={`btn-pill ${activeGroup === group.id ? 'btn-pill-dark' : 'btn-pill-outline'}`}
-              style={{ padding: '8px 20px', fontSize: '0.9rem' }}
-            >
-              {group.label}
-            </button>
-          ))}
+        <div className="mobile-chooser-pills" role="tablist" aria-label="Passenger selection">
+          {groups.map(group => {
+            const isActive = activeGroup === group.id;
+            return (
+              <button 
+                key={group.id}
+                role="tab"
+                aria-selected={isActive}
+                onClick={() => handleGroupChange(group.id)}
+                className={`btn-pill ${isActive ? 'btn-pill-dark' : 'btn-pill-outline'}`}
+                style={{ position: 'relative', padding: '8px 20px', fontSize: '0.9rem', zIndex: 1 }}
+              >
+                <span>{group.label}</span>
+              </button>
+            );
+          })}
         </div>
 
         <div className="mobile-chooser-box">
@@ -65,7 +71,10 @@ export function MobileVehicleChooser({ vehicles, onBook }) {
                     </div>
                     <div>
                       <strong style={{ display: 'block', fontSize: '0.95rem', color: 'var(--color-text-dark)' }}>{v.name}</strong>
-                      <span style={{ fontSize: '0.78rem', color: 'var(--color-text-muted)' }}>{v.seats} Seats • {v.ac ? 'AC' : 'Non-AC'}</span>
+                      <span style={{ fontSize: '0.78rem', color: 'var(--color-text-muted)', display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
+                        <SeatIcon size={12} />
+                        {v.seats} Seats • {v.ac ? 'AC' : 'Non-AC'}
+                      </span>
                     </div>
                   </div>
                   <span style={{ fontSize: '0.88rem', fontWeight: 700, color: 'var(--color-text-dark)' }}>{v.price}</span>

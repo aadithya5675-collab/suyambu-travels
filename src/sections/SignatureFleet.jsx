@@ -1,11 +1,13 @@
 import React, { useRef, useEffect, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { motion } from 'motion/react';
 import { RevealText } from '../components/RevealText';
+import { SeatIcon, AirConditionerIcon } from '../components/icons/Icons';
 
 gsap.registerPlugin(ScrollTrigger);
 
-export function SignatureFleet({ vehicles, onBook }) {
+export function SignatureFleet({ vehicles, onBook, enableSpatial = true, preloadImages = true }) {
   const sectionRef = useRef(null);
   const pinWrapperRef = useRef(null);
   const trackRef = useRef(null);
@@ -14,9 +16,9 @@ export function SignatureFleet({ vehicles, onBook }) {
 
   // Preload fleet images during idle time
   useEffect(() => {
-    if (typeof window === 'undefined') return;
+    if (typeof window === 'undefined' || !preloadImages) return;
 
-    const preloadImages = () => {
+    const preload = () => {
       vehicles.forEach(v => {
         const img = new Image();
         img.src = v.image;
@@ -27,18 +29,18 @@ export function SignatureFleet({ vehicles, onBook }) {
     };
 
     if ('requestIdleCallback' in window) {
-      const handle = window.requestIdleCallback(preloadImages, { timeout: 3000 });
+      const handle = window.requestIdleCallback(preload, { timeout: 3000 });
       return () => window.cancelIdleCallback(handle);
     } else {
-      const timer = setTimeout(preloadImages, 1500);
+      const timer = setTimeout(preload, 1500);
       return () => clearTimeout(timer);
     }
-  }, [vehicles]);
+  }, [vehicles, preloadImages]);
 
   useEffect(() => {
     const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
     const checkLayout = () => {
-      setShouldUseSimpleLayout(window.innerWidth < 1024 || mediaQuery.matches);
+      setShouldUseSimpleLayout(!enableSpatial || window.innerWidth < 1024 || mediaQuery.matches);
     };
 
     checkLayout();
@@ -49,7 +51,7 @@ export function SignatureFleet({ vehicles, onBook }) {
       window.removeEventListener('resize', checkLayout);
       mediaQuery.removeEventListener('change', checkLayout);
     };
-  }, []);
+  }, [enableSpatial]);
 
   useEffect(() => {
     if (shouldUseSimpleLayout) return;
@@ -111,24 +113,62 @@ export function SignatureFleet({ vehicles, onBook }) {
     return () => ctx.revert();
   }, [shouldUseSimpleLayout, vehicles.length]);
 
+  // Clean, High-Performance Static Fallback for Light & Static Tiers & Reduced Motion
   if (shouldUseSimpleLayout) {
     return (
-      <section className="section-padding fleet-signature-mobile" id="fleet">
+      <section className="section-padding fleet-static-section" id="fleet">
         <div className="container">
-          <RevealText as="span" className="eyebrow" text="OUR FLEET" />
-          <h2 className="heading-lg" style={{ marginBottom: '48px' }}>
-            Choose the right ride<br/>for every journey.
-          </h2>
+          <div style={{ marginBottom: '48px' }}>
+            <RevealText as="span" className="eyebrow" text="OUR FLEET" />
+            <h2 className="heading-lg" style={{ margin: 0 }}>Choose your ride.</h2>
+          </div>
 
-          <div className="fleet-mobile-list">
-            {vehicles.map((v, i) => (
-              <div key={v.id} className={`fleet-mobile-item ${i % 2 !== 0 ? 'align-right' : ''}`}>
-                <h3 className="heading-md">{v.name}</h3>
-                <p className="body-sm" style={{ color: 'var(--color-text-muted)', marginBottom: '16px' }}>
-                  {v.seats} Seater • {v.ac ? 'AC' : 'Non-AC'}
-                </p>
-                <div className="image-reveal-wrap">
-                  <img src={v.image} alt={v.name} loading="lazy" />
+          <div className="fleet-static-grid">
+            {vehicles.map((v, index) => (
+              <div key={v.id} className="fleet-spatial-card fleet-static-card">
+                <div className="fleet-spatial-info">
+                  <span className="eyebrow" style={{ color: 'var(--color-text-muted)' }}>
+                    VEHICLE 0{index + 1}
+                  </span>
+                  <h3 className="heading-lg" style={{ marginBottom: '8px' }}>{v.name}</h3>
+                  
+                  {/* Kokonut-inspired Spec Badges */}
+                  <div style={{ display: 'inline-flex', alignItems: 'center', gap: '12px', marginBottom: '24px', flexWrap: 'wrap' }}>
+                    <span className="body-md" style={{ color: 'var(--color-text-muted)', display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
+                      <SeatIcon size={16} />
+                      {v.seats} Seater
+                    </span>
+                    <span style={{ color: 'var(--color-border)' }}>•</span>
+                    <span className="body-md" style={{ color: 'var(--color-text-muted)', display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
+                      <AirConditionerIcon size={16} />
+                      {v.ac ? 'AC' : 'Non-AC'}
+                    </span>
+                  </div>
+
+                  <div style={{ marginBottom: '32px' }}>
+                    <span className="heading-md" style={{ color: 'var(--color-green-dark)' }}>{v.price}</span>
+                    {v.package && <span className="body-sm" style={{ color: 'var(--color-text-muted)', display: 'block' }}>/ {v.package}</span>}
+                  </div>
+                  
+                  <motion.button 
+                    className="btn-pill btn-pill-dark"
+                    onClick={() => onBook(v.id)}
+                    whileHover={{ y: -2, transition: { duration: 0.18 } }}
+                    whileTap={{ scale: 0.97 }}
+                  >
+                    <span>Enquire</span>
+                    <span className="arrow-icon" style={{ marginLeft: '6px' }}>→</span>
+                  </motion.button>
+                </div>
+
+                {/* Kokonut-inspired Image Framing Container */}
+                <div className="fleet-spatial-image-container">
+                  <img 
+                    src={v.image} 
+                    alt={v.name} 
+                    className="fleet-spatial-img"
+                    loading={index === 0 ? 'eager' : 'lazy'}
+                  />
                 </div>
               </div>
             ))}
@@ -166,21 +206,38 @@ export function SignatureFleet({ vehicles, onBook }) {
                       VEHICLE 0{index + 1}
                     </span>
                     <h3 className="heading-lg" style={{ marginBottom: '8px' }}>{v.name}</h3>
-                    <p className="body-md" style={{ color: 'var(--color-text-muted)', marginBottom: '24px' }}>
-                      {v.seats} Seater • {v.ac ? 'AC' : 'Non-AC'}
-                    </p>
+                    
+                    {/* Kokonut-inspired Spec Badges */}
+                    <div style={{ display: 'inline-flex', alignItems: 'center', gap: '12px', marginBottom: '24px', flexWrap: 'wrap' }}>
+                      <span className="body-md" style={{ color: 'var(--color-text-muted)', display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
+                        <SeatIcon size={16} />
+                        {v.seats} Seater
+                      </span>
+                      <span style={{ color: 'var(--color-border)' }}>•</span>
+                      <span className="body-md" style={{ color: 'var(--color-text-muted)', display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
+                        <AirConditionerIcon size={16} />
+                        {v.ac ? 'AC' : 'Non-AC'}
+                      </span>
+                    </div>
+
                     <div style={{ marginBottom: '32px' }}>
                       <span className="heading-md" style={{ color: 'var(--color-green-dark)' }}>{v.price}</span>
                       {v.package && <span className="body-sm" style={{ color: 'var(--color-text-muted)', display: 'block' }}>/ {v.package}</span>}
                     </div>
-                    <button 
+                    
+                    {/* Motion micro-press on button */}
+                    <motion.button 
                       className="btn-pill btn-pill-dark"
                       onClick={() => onBook(v.id)}
+                      whileHover={{ y: -2, transition: { duration: 0.18 } }}
+                      whileTap={{ scale: 0.97 }}
                     >
-                      Enquire →
-                    </button>
+                      <span>Enquire</span>
+                      <span className="arrow-icon" style={{ marginLeft: '6px' }}>→</span>
+                    </motion.button>
                   </div>
 
+                  {/* Kokonut-inspired Image Framing Container */}
                   <div className="fleet-spatial-image-container">
                     <img 
                       src={v.image} 

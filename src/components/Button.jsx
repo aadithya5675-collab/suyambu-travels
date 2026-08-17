@@ -1,5 +1,5 @@
-import React, { useRef } from 'react';
-import anime from 'animejs';
+import React from 'react';
+import { motion } from 'motion/react';
 
 export function Button({ 
   children, 
@@ -10,68 +10,55 @@ export function Button({
   hasArrow = true,
   ...props 
 }) {
-  const arrowRef = useRef(null);
-  
-  const handleMouseEnter = () => {
-    if (arrowRef.current) {
-      anime({
-        targets: arrowRef.current,
-        translateX: 4,
-        duration: 300,
-        easing: 'easeOutQuad'
-      });
-    }
-  };
-
-  const handleMouseLeave = () => {
-    if (arrowRef.current) {
-      anime({
-        targets: arrowRef.current,
-        translateX: 0,
-        duration: 300,
-        easing: 'easeOutQuad'
-      });
-    }
-  };
-
-  // Prevent duplicate arrows if children string already contains '→'
-  const hasExistingArrow = typeof children === 'string' && children.includes('→');
+  // Prevent duplicate arrows if children string already contains '→' or '↗'
+  const hasExistingArrow = typeof children === 'string' && (children.includes('→') || children.includes('↗'));
   const showArrow = hasArrow && !hasExistingArrow;
 
   const baseClass = `btn-pill btn-pill-${variant} ${className}`;
 
   const innerContent = (
     <>
-      {children}
+      <span>{children}</span>
       {showArrow && (
-        <span ref={arrowRef} className="arrow-icon" style={{ display: 'inline-block', marginLeft: '6px' }}>→</span>
+        <motion.span
+          className="arrow-icon"
+          initial={{ x: 0 }}
+          whileHover={{ x: 3 }}
+          transition={{ type: 'spring', stiffness: 400, damping: 25 }}
+          style={{ display: 'inline-block', marginLeft: '6px' }}
+        >
+          →
+        </motion.span>
       )}
     </>
   );
 
+  const motionProps = {
+    whileHover: { y: -1, transition: { duration: 0.18, ease: 'easeOut' } },
+    whileTap: { scale: 0.97, y: 0, transition: { duration: 0.1 } }
+  };
+
   if (href) {
     return (
-      <a 
+      <motion.a 
         href={href} 
         className={baseClass} 
-        onMouseEnter={handleMouseEnter}
-        onMouseLeave={handleMouseLeave}
+        {...motionProps}
         {...props}
       >
         {innerContent}
-      </a>
+      </motion.a>
     );
   }
 
   return (
-    <button 
+    <motion.button 
       className={baseClass} 
       onClick={onClick}
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
+      {...motionProps}
       {...props}
     >
       {innerContent}
-    </button>
+    </motion.button>
   );
 }

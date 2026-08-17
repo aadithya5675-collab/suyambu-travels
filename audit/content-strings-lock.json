@@ -1,0 +1,20 @@
+{
+  "timestamp": "2026-08-14T07:48:07.072Z",
+  "businessDataFile": "export const businessData = {\n  name: \"Suyambu Travels\",\n  experience: \"8 Years\",\n  location: \"Saravanampatti, Coimbatore, Tamil Nadu\",\n  phone: \"+91 98426 51518\",\n  phoneDisplay: \"+91 98426 51518\",\n  phoneTel: \"+919842651518\",\n  phoneRaw: \"919842651518\",\n  whatsappNumber: \"919842651518\",\n  mapsUrl: \"https://maps.app.goo.gl/v22NqVGu3octLQnv6?g_st=aw\",\n  advance: \"₹500–₹1,000\",\n  advancePolicy: \"Non-refundable\",\n  payments: [\"Cash\", \"UPI\", \"Google Pay\"],\n  bookingOptions: [\"Call\", \"WhatsApp\"],\n  travelScope: \"Outstation travel / ready to travel anywhere.\"\n};\n",
+  "vehiclesDataFile": "// Use the webp image paths as imported or absolute paths from public.\n// Since Vite handles assets in 'public' directly or imported from src/assets,\n// we will assume these images are in public/assets or we import them if we move assets.\n// The user prompt said: \"assets/vehicles/...\" are already there. So they are at /assets/vehicles/ (served by Vite if we move assets to public, or we import them).\n// I will move `assets/` to `public/assets/` during the process.\n\nexport const vehicles = [\n  {\n    id: \"swift-dzire\",\n    name: \"Swift Dzire\",\n    seats: 4,\n    ac: true,\n    price: \"₹3,000\",\n    package: \"100 km\",\n    image: \"/assets/vehicles/swift-dzire.webp\",\n    wide: false\n  },\n  {\n    id: \"innova-crysta\",\n    name: \"Innova Crysta\",\n    seats: 7,\n    ac: true,\n    price: \"₹4,500\",\n    package: \"100 km\",\n    image: \"/assets/vehicles/innova-crysta.webp\",\n    wide: false\n  },\n  {\n    id: \"innova-hycross\",\n    name: \"Innova Hycross\",\n    seats: 7,\n    ac: true,\n    price: \"₹5,000\",\n    package: \"100 km\",\n    image: \"/assets/vehicles/innova-hycross.webp\",\n    wide: true // Wide feature span for complete fleet\n  },\n  {\n    id: \"tempo-traveller\",\n    name: \"Tempo Traveller\",\n    seats: 12,\n    ac: true,\n    price: \"Contact for Price\",\n    package: \"\",\n    image: \"/assets/vehicles/tempo-traveller.webp\",\n    wide: false\n  },\n  {\n    id: \"force-urbania\",\n    name: \"Force Urbania\",\n    seats: 12,\n    ac: true,\n    price: \"Contact for Price\",\n    package: \"\",\n    image: \"/assets/vehicles/force-urbania.webp\",\n    wide: false\n  }\n];\n",
+  "manifest": {
+    "businessName": "Suyambu Travels",
+    "location": "Saravanampatti, Coimbatore, Tamil Nadu 641035",
+    "phone": "+91 98426 51518",
+    "sections": [
+      "Hero",
+      "TrustIntro",
+      "SignatureFleet",
+      "VehicleChooser",
+      "Pricing",
+      "BookingProcess",
+      "TravelCTA",
+      "Footer"
+    ]
+  }
+}

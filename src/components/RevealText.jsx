@@ -1,15 +1,17 @@
 import React, { useRef, useEffect } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useAdaptivePerformance } from '../adaptive/useAdaptivePerformance';
 
 gsap.registerPlugin(ScrollTrigger);
 
 export function RevealText({ text, children, as: Component = 'span', className = '', delay = 0, style }) {
   const containerRef = useRef(null);
+  const { features } = useAdaptivePerformance();
 
   useEffect(() => {
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (prefersReducedMotion) return;
+    if (prefersReducedMotion || !features.cinematicGSAP) return;
 
     const ctx = gsap.context(() => {
       const lines = containerRef.current.querySelectorAll('.reveal-line-inner');
@@ -32,7 +34,7 @@ export function RevealText({ text, children, as: Component = 'span', className =
     }, containerRef);
 
     return () => ctx.revert();
-  }, [delay]);
+  }, [delay, features.cinematicGSAP]);
 
   const content = text ? (
     typeof text === 'string' ? text.split('\n').map((line, i) => (
@@ -61,10 +63,11 @@ export function RevealText({ text, children, as: Component = 'span', className =
 
 export function RevealUp({ children, className = '', delay = 0, style, as: Component = 'div', ...rest }) {
   const ref = useRef(null);
+  const { features } = useAdaptivePerformance();
 
   useEffect(() => {
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (prefersReducedMotion) return;
+    if (prefersReducedMotion || !features.cinematicGSAP) return;
 
     const ctx = gsap.context(() => {
       gsap.fromTo(ref.current, 
@@ -85,7 +88,7 @@ export function RevealUp({ children, className = '', delay = 0, style, as: Compo
     }, ref);
 
     return () => ctx.revert();
-  }, [delay]);
+  }, [delay, features.cinematicGSAP]);
 
   return <Component ref={ref} className={className} style={style} {...rest}>{children}</Component>;
 }

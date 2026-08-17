@@ -3,10 +3,11 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { RevealText } from '../components/RevealText';
 import { motionDistance } from '../motion/motionTokens';
+import { RoutePathAccent } from '../components/motion/RoutePathAccent';
 
 gsap.registerPlugin(ScrollTrigger);
 
-export function TrustIntro() {
+export function TrustIntro({ enableAnimation = true }) {
   const sectionRef = useRef(null);
   const leftRef = useRef(null);
   const rightRef = useRef(null);
@@ -14,7 +15,7 @@ export function TrustIntro() {
 
   useEffect(() => {
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (prefersReducedMotion) return;
+    if (prefersReducedMotion || !enableAnimation) return;
 
     let ctx = gsap.context(() => {
       let mm = gsap.matchMedia();
@@ -48,18 +49,23 @@ export function TrustIntro() {
     }, sectionRef);
 
     return () => ctx.revert();
-  }, []);
+  }, [enableAnimation]);
 
   return (
     <section className="section-padding trust-section" id="about" ref={sectionRef} style={{ overflow: 'hidden' }}>
       <div className="container">
         <div className="trust-grid">
-          {/* Left: Large Typography */}
+          {/* Left: Large Typography + Route Accent in structured layout */}
           <div className="trust-left" ref={leftRef}>
             <div className="trust-large-num">08</div>
-            <div style={{ marginLeft: '16px' }}>
-              <RevealText as="span" delay={0} className="heading-md" style={{ marginBottom: 0 }}>YEARS</RevealText>
-              <RevealText as="span" delay={0} className="heading-md" style={{ color: 'var(--color-text-muted)' }}>ON THE ROAD</RevealText>
+            <div className="trust-left-content">
+              <div>
+                <RevealText as="span" delay={0} className="heading-md" style={{ marginBottom: 0 }}>YEARS</RevealText>
+                <RevealText as="span" delay={0} className="heading-md" style={{ color: 'var(--color-text-muted)' }}>ON THE ROAD</RevealText>
+              </div>
+              <div className="trust-route-wrap">
+                <RoutePathAccent isStatic={!enableAnimation} />
+              </div>
             </div>
           </div>
 

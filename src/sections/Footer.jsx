@@ -2,15 +2,16 @@ import React, { useRef, useEffect } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { businessData } from '../data/business';
+import { CallIcon, LocationIcon, ArrowUpRightIcon, StarIcon } from '../components/icons/Icons';
 
 gsap.registerPlugin(ScrollTrigger);
 
-export function Footer() {
+export function Footer({ enableGSAP = true }) {
   const footerRef = useRef(null);
 
   useEffect(() => {
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (prefersReducedMotion) return;
+    if (prefersReducedMotion || !enableGSAP) return;
 
     let ctx = gsap.context(() => {
       let mm = gsap.matchMedia();
@@ -35,7 +36,7 @@ export function Footer() {
     }, footerRef);
 
     return () => ctx.revert();
-  }, []);
+  }, [enableGSAP]);
 
   return (
     <footer className="footer" ref={footerRef}>
@@ -48,7 +49,7 @@ export function Footer() {
               Comfortable AC travel from Coimbatore for your journeys near and far. Outstation travel ready to drive anywhere.
             </p>
             <div className="footer-experience-badge">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>
+              <StarIcon size={16} style={{ display: 'inline-block', verticalAlign: 'middle', marginRight: '6px' }} />
               {businessData.experience} of Travel Experience
             </div>
           </div>
@@ -69,7 +70,7 @@ export function Footer() {
           <div>
             <h4 className="footer-title">Contact Us</h4>
             <div className="footer-contact-item">
-              <svg className="footer-icon" viewBox="0 0 24 24"><path d="M6.62 10.79a15.053 15.053 0 006.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
+              <CallIcon size={18} className="footer-icon" style={{ flexShrink: 0 }} />
               <div>
                 <strong>Phone / WhatsApp:</strong><br/>
                 <a href={`tel:${businessData.phoneTel}`} className="footer-link">{businessData.phoneDisplay}</a>
@@ -77,7 +78,7 @@ export function Footer() {
             </div>
 
             <div className="footer-contact-item">
-              <svg className="footer-icon" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+              <LocationIcon size={18} className="footer-icon" style={{ flexShrink: 0 }} />
               <div>
                 <strong>Location:</strong><br/>
                 {businessData.location}
@@ -91,13 +92,9 @@ export function Footer() {
                 rel="noopener noreferrer"
                 className="footer-maps-btn"
               >
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" style={{ flexShrink: 0 }}>
-                  <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
-                </svg>
-                View on Google Maps
-                <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor" style={{ flexShrink: 0, opacity: 0.7 }}>
-                  <path d="M19 19H5V5h7V3H5a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"/>
-                </svg>
+                <LocationIcon size={14} style={{ flexShrink: 0 }} />
+                <span>View on Google Maps</span>
+                <ArrowUpRightIcon size={12} style={{ flexShrink: 0, opacity: 0.75 }} />
               </a>
             </div>
           </div>
