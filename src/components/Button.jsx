@@ -18,7 +18,7 @@ export function Button({
 
   const innerContent = (
     <>
-      <span>{children}</span>
+      <span style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}>{children}</span>
       {showArrow && (
         <motion.span
           className="arrow-icon"
