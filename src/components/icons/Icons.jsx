@@ -20,8 +20,7 @@ export function LocationIcon({ size = 18, className = '', color = 'currentColor'
 export function WhatsAppIcon({ size = 18, className = '', color = 'currentColor', style, ...props }) {
   return (
     <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" className={className} style={{ flexShrink: 0, minWidth: size, ...style }} {...props}>
-      <path d="M17.5 6.5A8.5 8.5 0 0 0 3.3 14.7L2 21.5l7-1.3A8.5 8.5 0 1 0 17.5 6.5z" />
-      <path d="M9.5 9.5c.2-.5.5-.5.8-.5h.6c.2 0 .4.1.5.4l.7 1.7c.1.3.1.5-.1.7l-.4.5c-.1.2-.3.2-.2.5.5.9 1.4 1.8 2.3 2.3.3.1.4 0 .5-.2l.5-.4c.2-.2.4-.2.7-.1l1.7.7c.3.1.4.3.4.5v.6c0 .3-.1.6-.5.8-.5.3-1.4.4-2.5 0-1.8-.7-3.3-2.2-4-4-.4-1.1-.3-2 0-2.5z" />
+      <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" />
     </svg>
   );
 }
